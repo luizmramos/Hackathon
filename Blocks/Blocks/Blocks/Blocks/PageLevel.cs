@@ -9,23 +9,52 @@ namespace Blocks
     class PageLevel : UIRoot
     {
 
-        UIButton btnPlay;
+        UIButton btnFacil;
 
-        UILabel lblHello;
+        UIButton btnInterm;
+        
+        UIButton btnDificil;
+        
+        UILabel lblFacil;
+        
+        UILabel lblInterm;
+        
+        UILabel lblDificil;
 
-        UISprite imgStone;
+        UILabel lblTitulo;
 
-        UIButton btnNext;
-
-        AffectorF1 affStoneRotation;
+        float altura, largura, xF, yF, xI, yI, xD, yD, xT,yT;
 
         public PageLevel()
         {
 
-            Add(imgStone = new UISprite(Tex.stone),
-                btnPlay = new UIButton(Tex.btnSimple, Tex.btnSimple_pressed));
+            Add(btnFacil = new UIButton(Tex.btnSimple, Tex.btnSimple_pressed),
+                btnDificil=new UIButton(Tex.btnSimple,Tex.btnSimple_pressed),
+                btnInterm=new UIButton(Tex.btnSimple,Tex.btnSimple_pressed),
+                lblDificil=new UILabel(Font.andy30).SetText("Hard"),
+                lblFacil = new UILabel(Font.andy30).SetText("Easy"),
+                lblInterm = new UILabel(Font.andy30).SetText("Medium"),
+                lblTitulo = new UILabel(Font.andy30).SetText("Choose your level")
+            );
+            xD = 0.5f;
+            xF = 0.5f;
+            xI = 0.5f;
+            yF = 0.416f;
+            yI = 0.833f;
+            yD = 1.245f;
+            xT = 0.5f;
+            yT = 0.2f;
 
-            btnPlay.SetWidth(0.052f).SetHeight(0.052f).SetY(0.5f).SetX(0.5f);
+            altura = 0.2f;
+            largura = 0.7f;
+
+            btnFacil.SetWidth(largura).SetHeight(altura).SetY(yF).SetX(xF);
+            btnInterm.SetWidth(largura).SetHeight(altura).SetY(yI).SetX(xI);
+            btnDificil.SetWidth(largura).SetHeight(altura).SetY(yD).SetX(xD);
+            lblDificil.SetAlignment(1).SetX(xD).SetY(yD);
+            lblInterm.SetAlignment(1).SetX(xI).SetY(yI);
+            lblFacil.SetAlignment(1).SetX(xF).SetY(yF);
+            lblTitulo.SetAlignment(1).SetX(xT).SetY(yT);
 
             //Add(btnPlay = new UIButton(Tex.btnSimple, Tex.btnSimple_pressed),
             //    lblHello = new UILabel(Font.andy30).SetText("Hello"),
@@ -48,23 +77,29 @@ namespace Blocks
 
         void CreateAnimations()
         {
-            affStoneRotation = new AffectorF1(imgStone.Rotation, 0, (float)Math.PI * 2, 1000);
+            //affStoneRotation = new AffectorF1(imgStone.Rotation, 0, (float)Math.PI * 2, 1000);
         }
 
         void CreateHandlers()
         {
-            //btnPlay.OnRelease.Add((ti) => {
-            //    affStoneRotation.Begin();
-            //});
+            btnFacil.OnRelease.Add((ti) =>
+            {
+                MyUiManager.Get().SwitchtoFases(0);
+            });
 
-            //btnNext.OnRelease.Add((ti) => {
-            //    MyUiManager.Get().SwitchToPage2();
-            //});
+            btnInterm.OnRelease.Add((ti) =>
+            {
+                MyUiManager.Get().SwitchtoFases(1);
+            });
+            
+            btnDificil.OnRelease.Add((ti) => {
+                MyUiManager.Get().SwitchtoFases(2);
+            });
         }
 
         public override void Update(int dt)
         {
-            affStoneRotation.Update(dt);
+            //affStoneRotation.Update(dt);
             base.Update(dt);
         }
 

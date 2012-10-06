@@ -17,9 +17,7 @@ namespace Blocks
 
         UIButton btnNext;
 
-        AffectorF1 affStoneRotation;
-
-        public PageGame()
+        public PageGame(int level, int fase)
         {
 
             Add(imgStone = new UISprite(Tex.stone),
@@ -27,11 +25,10 @@ namespace Blocks
 
             btnPlay.SetWidth(0.052f).SetHeight(0.052f).SetY(0.5f).SetX(0.5f);
         }
-           
+
 
         public override void Update(int dt)
         {
-            affStoneRotation.Update(dt);
             base.Update(dt);
         }
 

@@ -9,24 +9,42 @@ namespace Blocks
     class PageFases : UIRoot
     {
 
-        UIButton btnPlay;
+        UILabel lblTitulo;
+        static int qtdFases=10;
+        UIButton[] vButton=new UIButton[qtdFases];
+        float[] posicX = new float[qtdFases];
+        float[] posicY = new float[qtdFases];
+        UILabel[] idFase = new UILabel[qtdFases];
+        float altura, largura,razao,xInic,yInic;
+        int qtdLinha=5;
+        int level;
 
-        UILabel lblHello;
-
-        UISprite imgStone;
-
-        UIButton btnNext;
-
-        AffectorF1 affStoneRotation;
-
-        public PageFases()
+        public PageFases(int level)
         {
+            this.level = level;
+            altura = 0.1f;
+            largura = 0.1f;
+            xInic = 0.1f;
+            yInic = 0.4f;
+            posicX[0] = xInic;
+            posicY[0] = yInic;
+            razao = 0.2f;
 
-            Add(imgStone = new UISprite(Tex.stone),
-                btnPlay = new UIButton(Tex.btnSimple, Tex.btnSimple_pressed));
+            for (int i = 1; i < qtdFases; i++) {
+                posicX[i] = posicX[0] + razao*(i%qtdLinha);
+                posicY[i] = posicY[0] + razao *((float) (i / qtdLinha));
+            }
 
-            btnPlay.SetWidth(0.052f).SetHeight(0.052f).SetY(0.5f).SetX(0.5f);
+            for (int i = 0; i < qtdFases; i++) {
+                Add(vButton[i] = new UIButton(Tex.btnSimple, Tex.btnSimple_pressed),
+                    idFase[i]=new UILabel(Font.andy30).SetText(i+1+"")
+                    );
+                vButton[i].SetHeight(altura).SetWidth(largura).SetX(posicX[i]).SetY(posicY[i]);
+                idFase[i].SetAlignment(1).SetX(posicX[i]).SetY(posicY[i]);
+            }
+           
 
+            
             //Add(btnPlay = new UIButton(Tex.btnSimple, Tex.btnSimple_pressed),
             //    lblHello = new UILabel(Font.andy30).SetText("Hello"),
             //    imgStone = new UISprite(Tex.stone),
@@ -48,23 +66,24 @@ namespace Blocks
 
         void CreateAnimations()
         {
-            affStoneRotation = new AffectorF1(imgStone.Rotation, 0, (float)Math.PI * 2, 1000);
+            //affStoneRotation = new AffectorF1(imgStone.Rotation, 0, (float)Math.PI * 2, 1000);
         }
 
         void CreateHandlers()
         {
-            //btnPlay.OnRelease.Add((ti) => {
-            //    affStoneRotation.Begin();
-            //});
+            for (int i = 0; i < qtdFases; i++)
+            {
+                vButton[i].OnRelease.Add((ti) =>
+                {
+                    MyUiManager.Get().SwitchtoGame(level,i);
+                });
 
-            //btnNext.OnRelease.Add((ti) => {
-            //    MyUiManager.Get().SwitchToPage2();
-            //});
+            }
         }
 
         public override void Update(int dt)
         {
-            affStoneRotation.Update(dt);
+            //affStoneRotation.Update(dt);
             base.Update(dt);
         }
 
